@@ -28,10 +28,10 @@ export default function Landing() {
             <DoodleElements />
             
             <h2 className="text-4xl font-handwritten font-bold text-pink-accent mb-4">
-              Join the Beauty Squad! 💕
+              Stay Informed
             </h2>
             <p className="text-lg text-text-dark/80 mb-8 max-w-2xl mx-auto">
-              Get weekly beauty tips, honest reviews, and exclusive content straight to your inbox. No spam, just glow! ✨
+              Receive evidence-based skincare insights and product reviews directly in your inbox
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
@@ -60,10 +60,10 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <h3 className="font-handwritten text-2xl font-bold text-pink-primary mb-4">No Filter</h3>
-              <p className="text-gray-300">Your authentic beauty companion for real reviews and honest advice.</p>
+              <p className="text-gray-300">Your trusted source for research-backed skincare information and honest product reviews.</p>
               <div className="flex space-x-4 mt-4">
                 <a href="#" className="text-pink-primary hover:text-pink-accent transition-colors">Instagram</a>
-                <a href="#" className="text-pink-primary hover:text-pink-accent transition-colors">TikTok</a>
+                <a href="#" className="text-pink-primary hover:text-pink-accent transition-colors">Twitter</a>
                 <a href="#" className="text-pink-primary hover:text-pink-accent transition-colors">YouTube</a>
               </div>
             </div>
@@ -71,10 +71,10 @@ export default function Landing() {
             <div>
               <h4 className="font-semibold text-pink-primary mb-4">Categories</h4>
               <ul className="space-y-2 text-gray-300">
-                <li><a href="#" className="hover:text-pink-accent transition-colors">The Truth Tea</a></li>
-                <li><a href="#" className="hover:text-pink-accent transition-colors">Skin Deep</a></li>
-                <li><a href="#" className="hover:text-pink-accent transition-colors">Glow Goals</a></li>
                 <li><a href="#" className="hover:text-pink-accent transition-colors">Product Reviews</a></li>
+                <li><a href="#" className="hover:text-pink-accent transition-colors">Skin Science</a></li>
+                <li><a href="#" className="hover:text-pink-accent transition-colors">Skin Health</a></li>
+                <li><a href="#" className="hover:text-pink-accent transition-colors">Research</a></li>
               </ul>
             </div>
             
@@ -99,7 +99,7 @@ export default function Landing() {
           </div>
           
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p className="text-gray-400">&copy; 2024 No Filter Beauty Blog. Made with 💕 for the beauty community.</p>
+            <p className="text-gray-400">&copy; 2024 No Filter - Evidence-based skincare information</p>
           </div>
         </div>
       </footer>

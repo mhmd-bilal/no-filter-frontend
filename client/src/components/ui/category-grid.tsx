@@ -2,22 +2,19 @@ import { motion } from "framer-motion";
 
 const categories = [
   {
-    title: "The Truth Tea ☕",
-    description: "Honest product reviews & real results",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-    rotation: "-rotate-2"
+    title: "Product Reviews",
+    description: "In-depth analysis of skincare products and their effectiveness",
+    image: "https://i.ibb.co/S71k95G8/hp1.jpg",
   },
   {
-    title: "Skin Deep 🌸",
-    description: "Skincare routines & ingredient deep dives",
-    image: "https://images.unsplash.com/photo-1570554886111-e80fcca6a029?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-    rotation: "rotate-1"
+    title: "Skin Science",
+    description: "Understanding ingredients and their impact on skin health",
+    image: "https://i.ibb.co/hJ9BrPMK/hp2.jpg",
   },
   {
-    title: "Glow Goals ✨",
-    description: "Lifestyle tips & wellness for your glow",
-    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-    rotation: "-rotate-1"
+    title: "Skin Health",
+    description: "Evidence-based approaches to maintaining healthy skin",
+    image: "https://i.ibb.co/Q38Zv1Vd/hp3.jpg",
   }
 ];
 
@@ -38,18 +35,27 @@ export default function CategoryGrid() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          What's Your Vibe Today?
+          Explore Skincare Topics
         </motion.h2>
         
         <div className="grid md:grid-cols-3 gap-8">
           {categories.map((category, index) => (
             <motion.div
               key={category.title}
-              initial={{ opacity: 0, scale: 0.9, rotate: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ 
+                opacity: 1, 
+                scale: 1,
+                rotate: Math.random() * 6 - 3 // Random rotation between -3 and 3 degrees
+              }}
+              whileHover={{ 
+                rotate: 0,
+                scale: 1.02,
+                transition: { duration: 0.3 }
+              }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className={`polaroid-card transform ${category.rotation} hover:rotate-0 transition-all duration-300 cursor-pointer`}
+              className="polaroid-card transform cursor-pointer shadow-md hover:shadow-xl"
             >
               <img 
                 src={category.image}
