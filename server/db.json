@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "alice",
+      "password": "$2a$10$XK8u3r4YR7CrJ/h.IZ6YUOZKkd2pCcS6IZH6kCIFD1ETwzFg0GUeG"
+    },
+    {
+      "id": "2",
+      "username": "bob",
+      "password": "$2a$10$XK8u3r4YR7CrJ/h.IZ6YUOZKkd2pCcS6IZH6kCIFD1ETwzFg0GUeG"
+    },
+    {
+      "id": "3",
+      "username": "carol",
+      "password": "$2a$10$XK8u3r4YR7CrJ/h.IZ6YUOZKkd2pCcS6IZH6kCIFD1ETwzFg0GUeG"
+    },
+    {
+      "id": "1754925301780",
+      "username": "bilal@gmail.com",
+      "password": "$2b$10$bA22q8H.yZDjJnh9lUKcL.9XCEs5C7J9SFiXXk0/gKxr.MOVeeQQO"
+    }
+  ],
+  "posts": [
+    {
+      "id": "1",
+      "title": "My First Beauty Review",
+      "content": "Just tried the new moisturizer from Brand X and I'm absolutely loving it! The texture is perfect and my skin feels amazing.",
+      "imageUrl": "https://example.com/images/moisturizer.jpg",
+      "userId": "1",
+      "username": "alice",
+      "createdAt": "2025-08-10T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "title": "Summer Skincare Routine",
+      "content": "Here's my complete summer skincare routine that has been working wonders for my combination skin...",
+      "imageUrl": "https://example.com/images/skincare.jpg",
+      "userId": "2",
+      "username": "bob",
+      "createdAt": "2025-08-11T09:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "Holy Grail Products 2025",
+      "content": "These are the products I can't live without this year. Number one has to be...",
+      "imageUrl": "https://example.com/images/products.jpg",
+      "userId": "3",
+      "username": "carol",
+      "createdAt": "2025-08-11T14:15:00.000Z"
+    }
+  ]
+}

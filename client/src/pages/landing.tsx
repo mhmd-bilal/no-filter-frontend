@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/ui/navigation";
 import HeroSection from "@/components/ui/hero-section";
 import CategoryGrid from "@/components/ui/category-grid";
@@ -6,8 +7,11 @@ import PostsGrid from "@/components/ui/posts-grid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import DoodleElements from "@/components/ui/doodle-elements";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Landing() {
+  const { isAuthenticated } = useAuth();
+  
   return (
     <div className="min-h-screen bg-pink-light grid-overlay font-sans text-text-dark">
       <Navigation />
@@ -16,7 +20,7 @@ export default function Landing() {
       <PostsGrid showAll={false} />
       
       {/* Newsletter Signup */}
-      <motion.section 
+      {/* <motion.section 
         className="py-16 bg-white/70 backdrop-blur-sm"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -52,7 +56,7 @@ export default function Landing() {
             </p>
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* Footer */}
       <footer className="bg-text-dark text-white py-12">

@@ -2,8 +2,21 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import DoodleElements from "@/components/ui/doodle-elements";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import { useLocation } from "wouter";
 
 export default function HeroSection() {
+  const { isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
+
+  const handleCreatePost = () => {
+    if (isAuthenticated) {
+      setLocation('/create-post');
+    } else {
+      setLocation('/sign-in');
+    }
+  };
+
   return (
     <motion.section
       id="home"
@@ -64,8 +77,9 @@ export default function HeroSection() {
               <Button
                 variant="outline"
                 className="px-8 py-3 border-2 border-pink-accent text-pink-accent rounded-full hover:bg-pink-accent hover:text-white transition-colors font-medium"
+                onClick={handleCreatePost}
               >
-                Join the Community
+                {isAuthenticated ? "Create a Post ✨" : "Sign in to Post"}
               </Button>
             </motion.div>
           </motion.div>

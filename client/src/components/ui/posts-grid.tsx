@@ -1,56 +1,89 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import PolaroidCard from "@/components/ui/polaroid-card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { getPosts } from "@/lib/api";
+import type { Post } from "@/lib/api";
+
+interface PolaroidCardProps {
+  title: string;
+  content: string;
+  imageUrl?: string;
+  username: string;
+  createdAt: string;
+  rotation?: string;
+}
+
+function PolaroidCard({ title, content, imageUrl, username, createdAt, rotation }: PolaroidCardProps) {
+  const date = new Date(createdAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  return (
+    <Card className={`h-full hover:shadow-lg transition-shadow overflow-hidden ${rotation}`}>
+      <CardContent className="p-6">
+        {imageUrl && (
+          <div className="mb-4 w-full h-48 overflow-hidden rounded-lg">
+            <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+          </div>
+        )}
+        <CardTitle className="mb-2">{title}</CardTitle>
+        <p className="text-gray-600 mb-4 line-clamp-2">{content}</p>
+        <div className="flex justify-between items-center">
+          <Badge variant="secondary">@{username}</Badge>
+          <span className="text-sm text-gray-500">{date}</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 interface PostsGridProps {
   showAll?: boolean;
 }
 
 export default function PostsGrid({ showAll = true }: PostsGridProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(0);
   const postsPerPage = showAll ? 12 : 6;
 
-  const { data: posts, isLoading } = useQuery({
-    queryKey: ["/api/posts", { 
-      limit: showAll ? 50 : postsPerPage,
-      offset: currentPage * postsPerPage 
-    }],
+  const { data: posts = [], isLoading } = useQuery<Post[]>({
+    queryKey: ["posts"],
+    queryFn: getPosts,
   });
-
-  const { data: categories } = useQuery({
-    queryKey: ["/api/categories"],
-  });
-
-  const filteredPosts = selectedCategory === "all" 
-    ? posts 
-    : posts?.filter((post: any) => post.categoryId === parseInt(selectedCategory));
-
-  const displayedPosts = showAll 
-    ? filteredPosts 
-    : filteredPosts?.slice(0, postsPerPage);
 
   if (isLoading) {
     return (
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="masonry-grid">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="masonry-item">
-                <div className="polaroid-card animate-pulse">
+              <Card key={index} className="animate-pulse">
+                <CardContent>
                   <div className="w-full h-48 bg-pink-primary/20 rounded-lg mb-4"></div>
                   <div className="space-y-2">
-                    <div className="h-6 bg-pink-primary/20 rounded-lg w-3/4 mx-auto"></div>
+                    <div className="h-6 bg-pink-primary/20 rounded-lg w-3/4"></div>
                     <div className="h-4 bg-pink-primary/20 rounded-lg w-full"></div>
-                    <div className="h-4 bg-pink-primary/20 rounded-lg w-2/3 mx-auto"></div>
+                    <div className="h-4 bg-pink-primary/20 rounded-lg w-2/3"></div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!posts.length) {
+    return (
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-xl text-gray-600">No posts found</p>
         </div>
       </section>
     );
@@ -67,56 +100,26 @@ export default function PostsGrid({ showAll = true }: PostsGridProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
           <h2 className="text-4xl font-handwritten font-bold text-pink-accent mb-4 md:mb-0">
-            Latest from the Scrapbook
+            Latest Posts
           </h2>
-          
-          {/* Filter Tags */}
-          <div className="flex flex-wrap gap-2">
-            <Button
-              size="sm"
-              onClick={() => setSelectedCategory("all")}
-              className={`rounded-full text-sm font-medium transition-colors ${
-                selectedCategory === "all"
-                  ? "bg-pink-accent text-white"
-                  : "bg-white text-text-dark hover:bg-pink-primary/20"
-              }`}
-            >
-              All
-            </Button>
-            {categories?.map((category: any) => (
-              <Button
-                key={category.id}
-                size="sm"
-                onClick={() => setSelectedCategory(category.id.toString())}
-                className={`rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === category.id.toString()
-                    ? "bg-pink-accent text-white"
-                    : "bg-white text-text-dark hover:bg-pink-primary/20"
-                }`}
-              >
-                {category.name}
-              </Button>
-            ))}
-          </div>
         </div>
         
-        <div className="masonry-grid">
-          {displayedPosts?.map((post: any, index: number) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.slice(0, showAll ? posts.length : postsPerPage).map((post, index) => (
             <motion.article 
               key={post.id}
-              className="masonry-item"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Link href={`/post/${post.slug}`}>
+              <Link to={`/post/${post.id}`}>
                 <PolaroidCard
                   title={post.title}
-                  excerpt={post.excerpt}
+                  content={post.content}
                   imageUrl={post.imageUrl}
-                  readTime={post.readTime}
-                  category="Reviews" // This could be dynamic based on categoryId
+                  username={post.username}
+                  createdAt={post.createdAt}
                   rotation={index % 3 === 0 ? 'rotate-2' : index % 3 === 1 ? '-rotate-1' : 'rotate-1'}
                 />
               </Link>
@@ -124,13 +127,29 @@ export default function PostsGrid({ showAll = true }: PostsGridProps) {
           ))}
         </div>
         
-        {showAll && filteredPosts && filteredPosts.length > postsPerPage && (
-          <div className="text-center mt-12">
-            <Button 
-              onClick={() => setCurrentPage(prev => prev + 1)}
-              className="px-8 py-3 bg-pink-accent text-white rounded-full hover:bg-pink-accent/90 transition-colors font-medium"
+        {!showAll && posts.length > postsPerPage && (
+          <div className="mt-8 text-center">
+            <Link to="/home">
+              <Button variant="outline">View All Posts</Button>
+            </Link>
+          </div>
+        )}
+
+        {showAll && posts.length > postsPerPage && (
+          <div className="mt-8 flex justify-center gap-4">
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
+              disabled={currentPage === 0}
             >
-              Load More Posts
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage(p => p + 1)}
+              disabled={currentPage * postsPerPage + postsPerPage >= posts.length}
+            >
+              Next
             </Button>
           </div>
         )}
